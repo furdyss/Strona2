@@ -4,7 +4,7 @@ import '@fontsource-variable/instrument-sans';
 import { site } from '../config';
 import { districts, suburbs, allSuburbs } from '../areas';
 
-const title = `Ślusarz Warszawa całodobowo – otwieranie, naprawa i wymiana zamków | ${site.name}`;
+const title = `Awaryjne otwieranie zamków i drzwi 24h Warszawa – naprawa i wymiana zamków | ${site.name}`;
 const description = `Ślusarz, który zna się na zamkach: otwieranie mieszkań, aut i sejfów, serwis Gerda, montaż zamków, klucze i stacyjki samochodowe. Całą dobę, Warszawa i okolice. Tel. ${site.phoneDisplay}.`;
 
 const services = [
@@ -296,9 +296,12 @@ const schema = {
     .area-suburbs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 640px) {
+    .top nav .call { display: none; }
+    .brand { font-size: 1.15rem; }
     .top nav a:not(.call) { display: none; }
     .services-grid, .area-suburbs { grid-template-columns: 1fr; }
     .dock { display: block; }
     .foot { padding-bottom: 6rem; }
   }
+  .top .call { white-space: nowrap; }
 </style>
