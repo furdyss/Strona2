@@ -1,0 +1,304 @@
+---
+import '@fontsource/young-serif';
+import '@fontsource-variable/instrument-sans';
+import { site } from '../config';
+import { districts, suburbs, allSuburbs } from '../areas';
+
+const title = `Ślusarz Warszawa całodobowo – otwieranie, naprawa i wymiana zamków | ${site.name}`;
+const description = `Ślusarz, który zna się na zamkach: otwieranie mieszkań, aut i sejfów, serwis Gerda, montaż zamków, klucze i stacyjki samochodowe. Całą dobę, Warszawa i okolice. Tel. ${site.phoneDisplay}.`;
+
+const services = [
+  { name: 'Otwieranie mieszkań i domów', text: 'Zatrzaśnięte drzwi, klucz złamany w zamku, zamek, który przestał reagować. Otwieramy z wyczuciem, tak żeby drzwi dalej służyły.' },
+  { name: 'Otwieranie samochodów', text: 'Kluczyk zostawiony w środku albo zgubiony. Otwieramy auto bez wybijania szyby i bez śladów na lakierze.' },
+  { name: 'Otwieranie sejfów', text: 'Sejfy mechaniczne i elektroniczne, gdy szyfr wypadł z głowy albo zamek odmówił posłuszeństwa.' },
+  { name: 'Stacyjki i immobilizery', text: 'Naprawa stacyjek, które się blokują, i immobilizerów, które nie rozpoznają kluczyka.' },
+  { name: 'Klucze samochodowe', text: 'Dorabiamy kluczyki do aut, także z pilotem i transponderem, i programujemy je do samochodu.' },
+  { name: 'Zamki Gerda', text: 'Serwis, regulacja i wymiana zamków oraz wkładek Gerda. Znamy te mechanizmy od środka.' },
+  { name: 'Montaż i wymiana zamków', text: 'Dobieramy zamek i wkładkę do drzwi i do tego, jak chcesz je zabezpieczyć. Montujemy od ręki.' },
+];
+
+const principles = [
+  { name: 'Cena przed wyjazdem', text: 'Mówimy, ile to będzie kosztować, zanim ruszymy. Bez dopisków na miejscu.' },
+  { name: 'Najpierw bez zniszczeń', text: 'Wiercenie to ostateczność. Jeśli jest konieczne, uprzedzamy i mamy ze sobą nowy zamek.' },
+  { name: 'Mówimy po ludzku', text: 'Tłumaczymy, co było nie tak z zamkiem i jak uniknąć tego następnym razem.' },
+];
+
+const whenToReplace = [
+  'Wprowadzasz się do mieszkania, w którym ktoś już mieszkał. Nie wiesz, ile kompletów kluczy krąży po świecie.',
+  'Zgubiłeś klucze razem z dokumentami albo czymś, co zdradza adres.',
+  'Ktoś próbował się włamać. Nawet jeśli nie wszedł, zamek mógł zostać osłabiony.',
+  'Klucz wchodzi ciężko, trzeba nim „pokręcić”, a zamek zacina się coraz częściej.',
+  'Wkładka ma kilkanaście lat i nie ma oznaczonej klasy odporności.',
+];
+
+const faq = [
+  { q: 'Pracujecie w nocy?', a: 'Tak, całą dobę, siedem dni w tygodniu, także w święta.' },
+  { q: 'Ile czeka się na ślusarza?', a: 'Przybliżony czas dojazdu podajemy w rozmowie. Zależy od tego, gdzie jesteś i która jest godzina.' },
+  { q: 'Skąd mam wiedzieć, ile zapłacę?', a: 'Cenę ustalamy przez telefon na podstawie Twojego opisu. Jeśli na miejscu okaże się, że sprawa jest inna, najpierw rozmawiamy, potem pracujemy.' },
+  { q: 'Czy otworzycie każdemu, kto zadzwoni?', a: 'Nie. Przy otwieraniu mieszkania prosimy o dokument potwierdzający, że masz prawo wejść do lokalu.' },
+  { q: 'Dojedziecie pod Warszawę?', a: `Tak. Poza wszystkimi dzielnicami Warszawy jeździmy m.in. do ${allSuburbs.slice(6, 12).join(', ')} i innych miejscowości wokół miasta.` },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Locksmith',
+  name: site.name,
+  telephone: site.phoneHref,
+  url: site.url,
+  openingHours: 'Mo-Su 00:00-23:59',
+  areaServed: [{ '@type': 'City', name: 'Warszawa' }, ...allSuburbs.map((n) => ({ '@type': 'City', name: n }))],
+  hasOfferCatalog: { '@type': 'OfferCatalog', name: 'Usługi ślusarskie', itemListElement: services.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.name } })) },
+};
+---
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={site.url + '/'} />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#1E3A2F" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pl_PL" />
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</head>
+<body>
+  <a class="skip" href="#tresc">Przejdź do treści</a>
+
+  <header class="top">
+    <a class="brand" href="/">
+      <svg viewBox="0 0 40 20" aria-hidden="true"><circle cx="8" cy="10" r="6"/><path d="M14 10h24M32 10v5M36 10v4M28 10v3"/></svg>
+      {site.name}
+    </a>
+    <nav aria-label="Główna">
+      <a href="#uslugi">Usługi</a>
+      <a href="#obszar">Gdzie dojeżdżamy</a>
+      <a class="call" href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a>
+    </nav>
+  </header>
+
+  <main id="tresc">
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Każdy zamek da się otworzyć. Sztuka w tym, żeby potem dalej działał.</h1>
+        <p>Ślusarz całodobowy w Warszawie i okolicach. Otwieramy, naprawiamy i wymieniamy zamki w drzwiach, autach i sejfach.</p>
+        <div class="hero-cta">
+          <a class="btn" href={`tel:${site.phoneHref}`}>Zadzwoń: {site.phoneDisplay}</a>
+          <span class="hours">Odbieramy całą dobę</span>
+        </div>
+      </div>
+      <svg class="hero-key" viewBox="0 0 520 220" role="img" aria-label="Rysunek klucza">
+        <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="92" cy="110" r="70" />
+          <circle cx="92" cy="110" r="44" />
+          <circle cx="92" cy="110" r="14" />
+          <path d="M162 98 H500 V122 H162" />
+          <path d="M500 122 V170 H478 V150 H458 V178 H436 V146 H414 V164 H392 V138 H370 V122" />
+          <path d="M200 110 H470" stroke-dasharray="2 10" />
+          <path d="M176 92 V128" />
+        </g>
+      </svg>
+    </section>
+
+    <div class="cut" aria-hidden="true"></div>
+
+    <section class="services" id="uslugi" aria-labelledby="h-uslugi">
+      <h2 id="h-uslugi">Czym się zajmujemy</h2>
+      <div class="services-grid">
+        {services.map((s) => (
+          <article>
+            <h3>{s.name}</h3>
+            <p>{s.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="principles" aria-labelledby="h-zasady">
+      <h2 id="h-zasady">Zasady, których się trzymamy</h2>
+      <div class="principles-list">
+        {principles.map((p) => (
+          <div>
+            <h3>{p.name}</h3>
+            <p>{p.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="advice" aria-labelledby="h-porada">
+      <div class="advice-head">
+        <h2 id="h-porada">Kiedy warto wymienić zamek</h2>
+        <p>Większość włamań nie wymaga wyrafinowanych narzędzi, tylko słabego albo zużytego zamka. Te sytuacje to dobry moment, żeby do nas zadzwonić, zanim stanie się coś gorszego.</p>
+      </div>
+      <ul>
+        {whenToReplace.map((w) => <li>{w}</li>)}
+      </ul>
+    </section>
+
+    <div class="cut cut-up" aria-hidden="true"></div>
+
+    <section class="area" id="obszar" aria-labelledby="h-obszar">
+      <h2 id="h-obszar">Dojeżdżamy do każdej dzielnicy Warszawy, w okolice i na przedmieścia</h2>
+      <p class="area-districts">
+        {districts.map((d, i) => <><span>{d}</span>{i < districts.length - 1 && <span class="sep" aria-hidden="true"> / </span>}</>)}
+      </p>
+      <h3>A także okolice miasta</h3>
+      <dl class="area-suburbs">
+        {Object.entries(suburbs).map(([dir, list]) => (
+          <div>
+            <dt>{dir}</dt>
+            <dd>{list.join(', ')}</dd>
+          </div>
+        ))}
+      </dl>
+      <p class="area-note">Twojej miejscowości nie ma na liście? Zadzwoń i zapytaj. Okolice Warszawy obsługujemy szerzej, niż mieści się na stronie.</p>
+    </section>
+
+    <section class="faq" aria-labelledby="h-faq">
+      <h2 id="h-faq">Częste pytania</h2>
+      <div class="faq-list">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div>
+      <p class="foot-brand">{site.name}</p>
+      <p>Ślusarz całodobowy. Warszawa, okolice i przedmieścia.</p>
+    </div>
+    <a class="btn" href={`tel:${site.phoneHref}`}>Zadzwoń: {site.phoneDisplay}</a>
+  </footer>
+
+  <a class="dock" href={`tel:${site.phoneHref}`}>Zadzwoń do ślusarza: {site.phoneDisplay}</a>
+</body>
+</html>
+
+<style is:global>
+  :root {
+    --green: #1E3A2F;
+    --deep: #12271E;
+    --brass: #C4973B;
+    --brass-light: #E2C27E;
+    --stone: #E8ECE5;
+    --white: #FAFBF8;
+    --serif: 'Young Serif', Georgia, serif;
+    --sans: 'Instrument Sans Variable', system-ui, sans-serif;
+    --pad: clamp(1rem, 5vw, 4.5rem);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: var(--stone); color: var(--deep); font-family: var(--sans); font-size: 1.0625rem; line-height: 1.6; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--brass); outline-offset: 3px; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; line-height: 1.15; }
+  p { margin: 0; }
+
+  .skip { position: absolute; left: -999px; top: 0; background: var(--brass); color: var(--deep); padding: .75rem 1rem; z-index: 10; }
+  .skip:focus { left: 1rem; }
+
+  .top { background: var(--green); color: var(--white); display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.1rem var(--pad); }
+  .brand { display: inline-flex; align-items: center; gap: .65rem; font-family: var(--serif); font-size: 1.35rem; text-decoration: none; }
+  .brand svg { width: 2.4rem; height: 1.2rem; fill: none; stroke: var(--brass); stroke-width: 2.5; stroke-linecap: round; }
+  .top nav { display: flex; align-items: center; gap: 1.75rem; }
+  .top nav a { text-decoration: none; }
+  .top nav a:hover { color: var(--brass-light); }
+  .top .call { color: var(--brass-light); font-weight: 600; }
+
+  .hero {
+    background: var(--green); color: var(--white);
+    display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; gap: 3rem;
+    padding: clamp(3rem, 8vw, 7rem) var(--pad) clamp(3.5rem, 8vw, 7rem);
+  }
+  .hero h1 { font-size: clamp(2.25rem, 4.6vw, 4rem); max-width: 17ch; }
+  .hero-text > p { margin-top: 1.5rem; font-size: 1.2rem; max-width: 44ch; color: #D5DDD7; }
+  .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 2.25rem; }
+  .hours { color: var(--brass-light); }
+  .hero-key { width: 100%; height: auto; color: var(--brass); }
+
+  .btn {
+    display: inline-block; background: var(--brass); color: var(--deep); text-decoration: none;
+    font-weight: 600; font-size: 1.1rem; padding: .95rem 1.6rem; border-radius: 999px;
+  }
+  .btn:hover { background: var(--brass-light); }
+
+  /* Separator: profil piórka klucza */
+  .cut {
+    height: 28px;
+    background: var(--green);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 28'%3E%3Cpath d='M0 0h120v8h-10v14h-14V12H82v10H68V8H56v16H42V10H30v8H16V8H0z'/%3E%3C/svg%3E") repeat-x left top / 120px 28px;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 28'%3E%3Cpath d='M0 0h120v8h-10v14h-14V12H82v10H68V8H56v16H42V10H30v8H16V8H0z'/%3E%3C/svg%3E") repeat-x left top / 120px 28px;
+  }
+
+  .cut-up { transform: scaleY(-1); }
+
+  section h2 { font-size: clamp(1.9rem, 3.6vw, 3rem); }
+
+  .services { padding: clamp(3.5rem, 7vw, 6rem) var(--pad); }
+  .services h2 { margin-bottom: 2.5rem; }
+  .services-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem 4rem; max-width: 72rem; }
+  .services article { border-left: 3px solid var(--brass); padding-left: 1.25rem; }
+  .services h3 { font-size: 1.5rem; margin-bottom: .5rem; }
+  .services p { max-width: 50ch; }
+
+  .principles { background: var(--white); padding: clamp(3.5rem, 7vw, 6rem) var(--pad); }
+  .principles h2 { margin-bottom: 2.5rem; }
+  .principles-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem; }
+  .principles h3 { font-size: 1.4rem; color: var(--green); margin-bottom: .5rem; }
+
+  .advice { padding: clamp(3.5rem, 7vw, 6rem) var(--pad); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 3rem; align-items: start; }
+  .advice-head p { margin-top: 1.25rem; max-width: 46ch; }
+  .advice ul { list-style: none; margin: 0; padding: 0; }
+  .advice li { padding: 1rem 0 1rem 2.25rem; border-bottom: 1px solid #C7CEC6; position: relative; }
+  .advice li::before {
+    content: ''; position: absolute; left: 0; top: 1.45rem; width: 1.2rem; height: .6rem;
+    border: 2px solid var(--brass); border-radius: 999px 0 0 999px; border-right: 0;
+  }
+
+  .area { background: var(--green); color: var(--white); padding: clamp(3.5rem, 7vw, 6rem) var(--pad); }
+  .area h2 { max-width: 22ch; }
+  .area-districts { font-family: var(--serif); font-size: clamp(1.4rem, 2.6vw, 2.1rem); line-height: 1.5; margin: 2rem 0 3rem; max-width: 60rem; }
+  .area-districts .sep { color: var(--brass); }
+  .area h3 { font-size: 1.4rem; color: var(--brass-light); margin-bottom: 1.25rem; }
+  .area-suburbs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; margin: 0; }
+  .area-suburbs dt { font-weight: 600; color: var(--brass-light); margin-bottom: .35rem; }
+  .area-suburbs dd { margin: 0; color: #D5DDD7; }
+  .area-note { margin-top: 2.5rem; max-width: 60ch; }
+
+  .faq { padding: clamp(3.5rem, 7vw, 6rem) var(--pad); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 3rem; }
+  .faq details { border-bottom: 1px solid #C7CEC6; }
+  .faq summary { cursor: pointer; padding: 1.1rem 0; font-family: var(--serif); font-size: 1.3rem; list-style-position: outside; }
+  .faq summary::marker { color: var(--brass); }
+  .faq details p { padding: 0 0 1.25rem; max-width: 60ch; }
+
+  .foot { background: var(--deep); color: var(--white); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; padding: 2.5rem var(--pad); }
+  .foot-brand { font-family: var(--serif); font-size: 1.5rem; }
+
+  .dock {
+    position: fixed; left: .75rem; right: .75rem; bottom: .75rem; z-index: 5; display: none;
+    background: var(--brass); color: var(--deep); text-align: center; text-decoration: none;
+    font-weight: 700; padding: 1rem; border-radius: 999px; box-shadow: 0 6px 20px rgba(18, 39, 30, .35);
+  }
+
+  @media (max-width: 960px) {
+    .hero, .advice, .faq { grid-template-columns: 1fr; }
+    .hero-key { max-width: 28rem; }
+    .principles-list { grid-template-columns: 1fr; gap: 1.75rem; }
+    .area-suburbs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    .top nav a:not(.call) { display: none; }
+    .services-grid, .area-suburbs { grid-template-columns: 1fr; }
+    .dock { display: block; }
+    .foot { padding-bottom: 6rem; }
+  }
+</style>
