@@ -1,6 +1,9 @@
 ---
 import '@fontsource/young-serif';
-import '@fontsource-variable/instrument-sans';
+import '@fontsource-variable/hanken-grotesk';
+import { Image } from 'astro:assets';
+import shopPhoto from '../assets/warsztat.jpg';
+import machinePhoto from '../assets/maszyna-klucze.jpg';
 import { site } from '../config';
 import { districts, suburbs, allSuburbs } from '../areas';
 
@@ -91,34 +94,27 @@ const schema = {
           <span class="hours">Odbieramy całą dobę</span>
         </div>
       </div>
-      <svg class="hero-key" viewBox="0 0 520 220" role="img" aria-label="Rysunek klucza">
-        <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="92" cy="110" r="70" />
-          <circle cx="92" cy="110" r="44" />
-          <circle cx="92" cy="110" r="14" />
-          <path d="M162 98 H500 V122 H162" />
-          <path d="M500 122 V170 H478 V150 H458 V178 H436 V146 H414 V164 H392 V138 H370 V122" />
-          <path d="M200 110 H470" stroke-dasharray="2 10" />
-          <path d="M176 92 V128" />
-        </g>
-      </svg>
     </section>
 
-    <div class="cut" aria-hidden="true"></div>
+    <figure class="shop">
+      <Image src={shopPhoto} alt="Ślusarz przy pracy w warsztacie, za nim ściana kluczy i zamków" widths={[800, 1400, 2000]} sizes="(min-width: 1200px) 1100px, 92vw" loading="eager" />
+    </figure>
 
     <section class="services" id="uslugi" aria-labelledby="h-uslugi">
       <h2 id="h-uslugi">Czym się zajmujemy</h2>
-      <div class="services-grid">
+      <dl class="services-grid">
         {services.map((s) => (
-          <article>
-            <h3>{s.name}</h3>
-            <p>{s.text}</p>
-          </article>
+          <div>
+            <dt>{s.name}</dt>
+            <dd>{s.text}</dd>
+          </div>
         ))}
-      </div>
+      </dl>
     </section>
 
     <section class="principles" aria-labelledby="h-zasady">
+      <Image class="principles-photo" src={machinePhoto} alt="Dłonie ślusarza przy maszynie do dorabiania kluczy" widths={[600, 1000]} sizes="(min-width: 960px) 40vw, 92vw" />
+      <div>
       <h2 id="h-zasady">Zasady, których się trzymamy</h2>
       <div class="principles-list">
         {principles.map((p) => (
@@ -127,6 +123,7 @@ const schema = {
             <p>{p.text}</p>
           </div>
         ))}
+      </div>
       </div>
     </section>
 
@@ -193,12 +190,15 @@ const schema = {
     --stone: #E8ECE5;
     --white: #FAFBF8;
     --serif: 'Young Serif', Georgia, serif;
-    --sans: 'Instrument Sans Variable', system-ui, sans-serif;
+    --sans: 'Hanken Grotesk Variable', system-ui, sans-serif;
     --pad: clamp(1rem, 5vw, 4.5rem);
   }
   *, *::before, *::after { box-sizing: border-box; }
   body { margin: 0; background: var(--stone); color: var(--deep); font-family: var(--sans); font-size: 1.0625rem; line-height: 1.6; }
-  a { color: inherit; }
+  a { color: inherit; text-underline-offset: .22em; }
+  ::selection { background: var(--brass); color: var(--deep); }
+  html { scrollbar-color: var(--green) var(--stone); }
+  body { caret-color: var(--brass); }
   :focus-visible { outline: 3px solid var(--brass); outline-offset: 3px; }
   h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; line-height: 1.15; }
   p { margin: 0; }
@@ -216,14 +216,14 @@ const schema = {
 
   .hero {
     background: var(--green); color: var(--white);
-    display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; gap: 3rem;
-    padding: clamp(3rem, 8vw, 7rem) var(--pad) clamp(3.5rem, 8vw, 7rem);
+    padding: clamp(3rem, 8vw, 6.5rem) var(--pad) clamp(9rem, 22vw, 18rem);
   }
-  .hero h1 { font-size: clamp(2.25rem, 4.6vw, 4rem); max-width: 17ch; }
+  .hero h1 { font-size: clamp(2.25rem, 5vw, 4.5rem); max-width: 20ch; }
   .hero-text > p { margin-top: 1.5rem; font-size: 1.2rem; max-width: 44ch; color: #D5DDD7; }
   .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 2.25rem; }
   .hours { color: var(--brass-light); }
-  .hero-key { width: 100%; height: auto; color: var(--brass); }
+  .shop { margin: clamp(-15rem, -18vw, -7rem) auto 0; padding: 0 var(--pad); max-width: calc(1100px + 2 * var(--pad)); }
+  .shop img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 6px; box-shadow: 0 24px 48px -16px rgba(18, 39, 30, .45); }
 
   .btn {
     display: inline-block; background: var(--brass); color: var(--deep); text-decoration: none;
@@ -245,14 +245,15 @@ const schema = {
 
   .services { padding: clamp(3.5rem, 7vw, 6rem) var(--pad); }
   .services h2 { margin-bottom: 2.5rem; }
-  .services-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem 4rem; max-width: 72rem; }
-  .services article { border-left: 3px solid var(--brass); padding-left: 1.25rem; }
-  .services h3 { font-size: 1.5rem; margin-bottom: .5rem; }
-  .services p { max-width: 50ch; }
+  .services-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 4rem; max-width: 72rem; margin: 0; }
+  .services-grid > div { padding: 1.4rem 0 1.6rem; border-top: 1px solid #BFC8BE; }
+  .services dt { font-family: var(--serif); font-size: 1.45rem; line-height: 1.2; margin-bottom: .45rem; }
+  .services dd { margin: 0; max-width: 50ch; color: #34463D; }
 
-  .principles { background: var(--white); padding: clamp(3.5rem, 7vw, 6rem) var(--pad); }
+  .principles { background: var(--white); padding: clamp(3.5rem, 7vw, 6rem) var(--pad); display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+  .principles-photo { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; }
   .principles h2 { margin-bottom: 2.5rem; }
-  .principles-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem; }
+  .principles-list { display: grid; gap: 1.75rem; }
   .principles h3 { font-size: 1.4rem; color: var(--green); margin-bottom: .5rem; }
 
   .advice { padding: clamp(3.5rem, 7vw, 6rem) var(--pad); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 3rem; align-items: start; }
@@ -291,8 +292,7 @@ const schema = {
 
   @media (max-width: 960px) {
     .hero, .advice, .faq { grid-template-columns: 1fr; }
-    .hero-key { max-width: 28rem; }
-    .principles-list { grid-template-columns: 1fr; gap: 1.75rem; }
+    .principles { grid-template-columns: 1fr; }
     .area-suburbs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 640px) {
